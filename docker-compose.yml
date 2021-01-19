@@ -1,12 +1,11 @@
 version: "3.5"
 
 services:
-  build:
+  builder:
+    build: .
+    image: marlin-build:latest
     container_name: marlin-build
-    image: frealmyr/marlin-build:latest
     user: 1000:1000
-    stdin_open: true
-    tty: true
     environment:
       - BOARD
       # - UPDATE_SKIP=true # Skip update prompt
@@ -14,6 +13,7 @@ services:
       # - USE_TAG=2.0.7.1 # Use a specific release tag
       # - USE_BRANCH=bugfix-2.0.x # Use a branch instead of latest tag
     volumes:
+      - $MARLIN_SOURCE:/home/platformio/Marlin
       - $MARLIN_FIRMWARE:/home/platformio/build
       - $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration
       # - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
